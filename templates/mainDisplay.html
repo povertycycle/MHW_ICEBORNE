@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/style.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body style="background: #353535; font-size: 10px;" text='white'>
+    <table style="border-spacing: 0px;">
+        <tr style="display: flex;">
+            <td>
+                <div id="dropDownMenu">Menu</div>
+                <article id="weaponList">Weapon List</article>
+                <article id="monsterList">Monster List</article>
+                <article id="itemList">Item List</article>
+            </td>
+            <td id="weaponListDisplay" style="display: none;"></td>
+            <td id="displayDetails"></td>
+            
+        </tr>
+    </table>
+    <div id="weaponProperties" style="position: absolute;">
+        <div>
+            <img id="weaponIcon"></img>
+            <div id="weaponName"></div>
+        </div>
+        <img id="weaponImage"></img>
+        <div class="weaponProperties">
+            <div id="weaponRarity" class="weaponValue"></div>
+        </div>
+        <div class="weaponProperties">
+            Attack
+            <div id="weaponAttack" class="weaponValue"></div>
+        </div>
+        <div class="weaponProperties" id="sharpness">
+            Sharpness
+            <div id="weaponSharpness">
+                <div class="colorPalette" id="handicraft0"></div>
+                <div class="colorPalette" id="handicraft1"></div>
+                <div class="colorPalette" id="handicraft2"></div>
+                <div class="colorPalette" id="handicraft3"></div>
+                <div class="colorPalette" id="handicraft4"></div>
+                <div class="colorPalette" id="handicraft5"></div>
+            </div>
+        </div>
+        <div class="weaponProperties">
+            Affinity
+            <div id="weaponAffinity" class="weaponValue"></div>
+        </div>
+        <div class="weaponProperties">
+            Element
+            <div id="weaponAElement" class="weaponValue"></div>
+        </div>
+        <div class="weaponProperties">
+            Slot
+            <div id="weaponSlot" class="weaponValue"></div>
+        </div>
+        <div class="weaponProperties">
+            Elderseal
+            <div id="weaponElderseal" class="weaponValue"></div>
+        </div>
+        <div class="weaponProperties">
+            Defense
+            <div id="weaponDefence" class="weaponValue"></div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="{{ url_for('static', filename='globalVariable.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='mainDisplay.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='weaponList.js') }}"></script>
+
+</html>
