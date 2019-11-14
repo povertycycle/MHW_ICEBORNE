@@ -134,20 +134,13 @@ function displaySharpness(sharpness)
 {
     for (var j = 0; j < sharpness.length; j++)
     {
-        console.log(j);
         var div = document.getElementById("handicraft"+j);
-        div.style.top = WEAPON_NAME_HEIGHT + PROPERTIES_WIDTH + 2*PROPERTIES_SECTION_HEIGHT + j*PROPERTIES_SECTION_HEIGHT + "px";
         div.style.backgroundColor = DEFAULT_BACKGROUND_COLOR;
-        div.style.borderRadius = BORDER_RADIUS + "px";
-        div.style.border = "white";
-        div.style.display = "unset";
         div.style.width = PROPERTIES_WIDTH/2 + "px";
+        div.style.height = PROPERTIES_SECTION_HEIGHT - 4*BORDER_RADIUS + "px";
         processSharpness(div, sharpness[j]);
-        div.style.borderStyle = "solid";
     }
 }
-
-async
 
 async function displayWeaponProperties(e, id) 
 {
@@ -162,6 +155,7 @@ async function displayWeaponProperties(e, id)
     WEAPON_RARITY.style.color = RARITY_COLOR[json["rarity"]];
     WEAPON_RARITY.innerText = "Rarity " + json["rarity"];
     WEAPON_ATTACK.innerText = json["attack"]["display"];
+    WEAPON_SHARPNESS.style.left = PROPERTIES_WIDTH + BORDER_RADIUS - GAP_WIDTH + "px";
     displaySharpness(json["durability"]);
     DIV_SHARPNESS.onmouseenter = function() { WEAPON_SHARPNESS.style.display = "unset"; }
     DIV_SHARPNESS.onmouseout = function() { WEAPON_SHARPNESS.style.display = "none"; }

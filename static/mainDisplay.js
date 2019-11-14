@@ -22,26 +22,34 @@ DISPLAY_DETAILS.style.position = "absolute";
 DISPLAY_DETAILS.style.overflow = "scroll";
 
 
-
 var PROPERTIES = $('.weaponProperties');
-for (i = 0; i < PROPERTIES.length; i++)
+for (var i = 0; i < PROPERTIES.length; i++)
 {
     PROPERTIES[i].style.height = PROPERTIES_SECTION_HEIGHT + "px";
     PROPERTIES[i].style.marginLeft = GAP_WIDTH + "px";
 }
 
 var VALUES = $('.weaponValue');
-for (i = 0; i < VALUES.length; i++)
+for (var i = 0; i < VALUES.length; i++)
 {
     VALUES[i].style.float = "right";
     VALUES[i].style.marginRight = GAP_WIDTH + "px";
 }
 
 var COLORS = $('.colorPalette');
-for (i = 0; i < COLORS.length; i++)
+for (var i = 0; i < COLORS.length; i++)
 {
     COLORS[i].style.height = PROPERTIES_SECTION_HEIGHT + "px";
-    COLORS[i].style.position = "absolute";
+}
+
+var HANDICRAFT_TAG = $('.handicraftTag');
+for (var i = 0; i < HANDICRAFT_TAG.length; i++)
+{
+    HANDICRAFT_TAG[i].style.borderRadius = BORDER_RADIUS + "px";
+    HANDICRAFT_TAG[i].style.border = "white";
+    HANDICRAFT_TAG[i].style.borderStyle = "solid";
+    HANDICRAFT_TAG[i].style.backgroundColor = DEFAULT_BACKGROUND_COLOR;
+    HANDICRAFT_TAG[i].style.height = PROPERTIES_SECTION_HEIGHT + "px";
 }
 
 PROPERTIES_HEIGHT = WEAPON_NAME_HEIGHT + PROPERTIES_WIDTH + PROPERTIES.length* PROPERTIES_SECTION_HEIGHT + "px";
@@ -61,7 +69,7 @@ WEAPON_NAME.style.width = PROPERTIES_WIDTH - WEAPON_NAME_HEIGHT + "px";
 WEAPON_NAME.style.fontSize = TEXT_SIZE + "px";
 
 WEAPON_SHARPNESS.style.display = "none";
-
+WEAPON_SHARPNESS.style.position = "absolute";
 
 $('article').on('mouseout mouseenter', function(e) 
 {
