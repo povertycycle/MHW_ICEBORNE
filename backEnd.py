@@ -14,6 +14,6 @@ def mainDisplay():
 if __name__ == '__main__':
     global FILENAME
 
-    FILENAME = "http://localhost:5000/"
-    webbrowser.open_new_tab(FILENAME)
+    # FILENAME = "http://localhost:5000/"
+    # webbrowser.open_new_tab(FILENAME)
     app.run()

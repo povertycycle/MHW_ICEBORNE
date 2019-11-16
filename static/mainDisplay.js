@@ -62,6 +62,7 @@ WEAPON_PROPERTIES.style.width = PROPERTIES_WIDTH + "px";
 WEAPON_PROPERTIES.style.height = PROPERTIES_HEIGHT + "px";
 WEAPON_PROPERTIES.style.backgroundColor = DEFAULT_BACKGROUND_COLOR;
 
+WEAPON_IMAGE.style.borderTopStyle = "solid";
 WEAPON_IMAGE.style.width = WEAPON_IMAGE.style.height = PROPERTIES_WIDTH + "px";
 WEAPON_NAME.style.display = "contents";
 WEAPON_NAME.style.height = WEAPON_ICON.style.height = WEAPON_ICON.style.width = WEAPON_NAME_HEIGHT + "px";
@@ -70,6 +71,15 @@ WEAPON_NAME.style.fontSize = TEXT_SIZE + "px";
 
 WEAPON_SHARPNESS.style.display = "none";
 WEAPON_SHARPNESS.style.position = "absolute";
+
+DIV_HAVE_ELDERSEAL.style.display = "none";
+DIV_HAVE_CRAFTING.style.display = "none";
+
+WEAPON_CRAFTING_MATS.style.position = WEAPON_UPGRADE_MATS.style.position = "absolute";
+WEAPON_CRAFTING_MATS.style.backgroundColor = WEAPON_CRAFTING_MATS.style.backgroundColor = DEFAULT_BACKGROUND_COLOR;
+
+WEAPON_ELEMENT.style.display = "flex";
+ELEMENT_TYPE.style.width = PROPERTIES_WIDTH*3/8 + "px";
 
 $('article').on('mouseout mouseenter', function(e) 
 {

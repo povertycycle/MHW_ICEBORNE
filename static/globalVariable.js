@@ -13,11 +13,19 @@ var WEAPON_RARITY = document.getElementById("weaponRarity");
 var WEAPON_ATTACK = document.getElementById("weaponAttack");
 var WEAPON_SHARPNESS = document.getElementById("weaponSharpness");
 var WEAPON_AFFINITY = document.getElementById("weaponAffinity");
-var WEAPON_ELEMENT = document.getElementById("weaponAElement");
+var WEAPON_ELEMENT = document.getElementById("weaponElement");
 var WEAPON_SLOT = document.getElementById("weaponSlot");
 var WEAPON_ELDERSEAL = document.getElementById("weaponElderseal");
 var WEAPON_DEFENCE = document.getElementById("weaponDefence");
+var WEAPON_CRAFTABLE = document.getElementById("weaponCraftable");
+var WEAPON_CRAFTING_MATS = document.getElementById("weaponCraftingMats");
+var WEAPON_UPGRADE_MATS = document.getElementById("weaponUpgradeMats");
 var DIV_SHARPNESS = document.getElementById("sharpness");
+var DIV_HAVE_ELDERSEAL = document.getElementById("haveElderseal");
+var DIV_HAVE_CRAFTING = document.getElementById("haveCrafting");
+var DIV_HAVE_UPGRADE = document.getElementById("haveUpgrade");
+var ELEMENT_TYPE = document.getElementById("elementType");
+var ELEMENT_VALUE = document.getElementById("elementValue");
 
 var DROP_DOWN_TAB_HEIGHT = 25;
 var DROP_DOWN_MENU_WIDTH = 150;
@@ -32,8 +40,10 @@ var PROPERTIES_HEIGHT;
 var WEAPON_NAME_HEIGHT = 25;
 var TEXT_SIZE = 14;
 var PROPERTIES_SECTION_HEIGHT = 20;
+var LINE_SIZE = 6;
 
 var DEFAULT_BACKGROUND_COLOR = "#191919";
+var GREY = "#808080";
 var WEAPON_LIST_PATH = "static/weapons/weapons.json";
 
 var WEAPON_TYPES = 

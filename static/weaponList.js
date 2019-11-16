@@ -84,22 +84,6 @@ $('.weaponType').on('mouseout mouseenter', function(e)
     }
 });
 
-function findPath(name)
-{
-    var leftVal = GAP_WIDTH;
-    var currWeapon = CURRENT_DISPLAYED_TREE[name];
-    var safetyNet = 0;
-    while(!currWeapon.rootWeapon)
-    {
-        currWeapon = CURRENT_DISPLAYED_TREE[currWeapon.prev_upgrade];
-        leftVal += ICON_GAP;
-        safetyNet += 1;
-        if(safetyNet >= 30) break;
-        console.log("Looking for paths...")
-    }
-    return leftVal;
-}
-
 function processSharpness(div, sharpness)
 {
     var sum = 0;
@@ -142,6 +126,119 @@ function displaySharpness(sharpness)
     }
 }
 
+function processMaterials(div, material)
+{
+    var itemQuantity = document.createElement("div");
+    itemQuantity.innerText = "x" + material["quantity"];
+    itemQuantity.style.float = "right";
+    itemQuantity.style.backgroundColor = DEFAULT_BACKGROUND_COLOR;
+    itemQuantity.style.height = PROPERTIES_SECTION_HEIGHT - 4*BORDER_RADIUS + "px";
+    div.appendChild(itemQuantity);
+}
+
+function displayCraftingMaterials(materials)
+{
+    while (WEAPON_CRAFTING_MATS.firstChild)
+    {
+        WEAPON_CRAFTING_MATS.removeChild(WEAPON_CRAFTING_MATS.firstChild);
+    }
+    WEAPON_CRAFTING_MATS.style.left = PROPERTIES_WIDTH + BORDER_RADIUS - GAP_WIDTH + "px";
+    var mats = Object.keys(materials);
+    for (var j = 0; j < mats.length; j++)
+    {  
+        var container = document.createElement("div");
+        container.style.display = "flex";
+        container.style.border = "white";
+        container.style.borderStyle = "solid";
+        var div = document.createElement("div");
+        div.innerText = materials[mats[j]]["item"]["name"];
+        div.style.width = PROPERTIES_WIDTH *3/4 + "px";
+        container.appendChild(div);
+        processMaterials(container, materials[mats[j]]);
+        WEAPON_CRAFTING_MATS.appendChild(container);
+    }
+}
+
+function displayUpgradeMaterials(materials)
+{
+    while (WEAPON_UPGRADE_MATS.firstChild)
+    {
+        WEAPON_UPGRADE_MATS.removeChild(WEAPON_UPGRADE_MATS.firstChild);
+    }
+    WEAPON_UPGRADE_MATS.style.left = PROPERTIES_WIDTH + BORDER_RADIUS - GAP_WIDTH + "px";
+    var mats = Object.keys(materials);
+    for (var j = 0; j < mats.length; j++)
+    {  
+        var container = document.createElement("div");
+        container.style.display = "flex";
+        container.style.border = "white";
+        container.style.borderStyle = "solid";
+        var div = document.createElement("div");
+        div.innerText = materials[mats[j]]["item"]["name"];
+        div.style.width = PROPERTIES_WIDTH *3/4 + "px";
+        container.appendChild(div);
+        processMaterials(container, materials[mats[j]]);
+        WEAPON_UPGRADE_MATS.appendChild(container);
+    }
+}
+
+function processCraftUpgrade(json)
+{
+    if (json["craftable"])
+    {
+        WEAPON_CRAFTABLE.innerText = "Yes";
+        DIV_HAVE_CRAFTING.style.display = "";
+        WEAPON_CRAFTING_MATS.style.display = "none";
+        displayCraftingMaterials(json["craftingMaterials"]);
+        DIV_HAVE_CRAFTING.onmouseenter = function() { WEAPON_CRAFTING_MATS.style.display = "unset"; }
+        DIV_HAVE_CRAFTING.onmouseout = function() { WEAPON_CRAFTING_MATS.style.display = "none"; }
+    }
+    else
+    {
+        DIV_HAVE_CRAFTING.style.display = "none";
+        WEAPON_CRAFTABLE.innerText = "No";
+    }
+    if (json["upgradeMaterials"].length > 0)
+    {
+        DIV_HAVE_UPGRADE.style.display = "";
+        WEAPON_UPGRADE_MATS.style.display = "none";
+        displayUpgradeMaterials(json["upgradeMaterials"]);
+        DIV_HAVE_UPGRADE.onmouseenter = function() { WEAPON_UPGRADE_MATS.style.display = "unset"; }
+        DIV_HAVE_UPGRADE.onmouseout = function() { WEAPON_UPGRADE_MATS.style.display = "none"; }
+    }
+    else
+    {
+        DIV_HAVE_UPGRADE.style.display = "none";
+    }
+}
+
+function processWeaponElement(json, elderseal)
+{
+    if (json.length > 0)
+    {
+        var elementArr = json[0];
+        ELEMENT_TYPE.innerText = toTitleCase(elementArr["type"]);
+        if (elementArr["type"]=="dragon")
+        {
+            DIV_HAVE_ELDERSEAL.style.display = "";
+            WEAPON_ELDERSEAL.innerText = elderseal ? toTitleCase(elderseal) : "";
+        }
+        else
+        {
+            DIV_HAVE_ELDERSEAL.style.display = "none";
+        }
+        if (elementArr["hidden"])
+        {
+            ELEMENT_VALUE.style.color = GREY; 
+            ELEMENT_VALUE.innerText = "("+toTitleCase(elementArr["damage"])+")";
+        }
+        else
+        {
+            ELEMENT_VALUE.innerText = elementArr["damage"];
+        }
+    }
+}
+
 async function displayWeaponProperties(e, id) 
 {
     WEAPON_PROPERTIES.style.top = e.clientY - SMALL_ICON/2 + "px";
@@ -154,11 +251,14 @@ async function displayWeaponProperties(e, id)
     WEAPON_ICON.src = json["assets"]["icon"];
     WEAPON_RARITY.style.color = RARITY_COLOR[json["rarity"]];
     WEAPON_RARITY.innerText = "Rarity " + json["rarity"];
-    WEAPON_ATTACK.innerText = json["attack"]["display"];
+    WEAPON_ATTACK.innerText = "Display: " + json["attack"]["display"] + " | Raw: " + json["attack"]["raw"];
     WEAPON_SHARPNESS.style.left = PROPERTIES_WIDTH + BORDER_RADIUS - GAP_WIDTH + "px";
     displaySharpness(json["durability"]);
     DIV_SHARPNESS.onmouseenter = function() { WEAPON_SHARPNESS.style.display = "unset"; }
     DIV_SHARPNESS.onmouseout = function() { WEAPON_SHARPNESS.style.display = "none"; }
+    WEAPON_AFFINITY.innerText = json["attributes"];
+    processCraftUpgrade(json["crafting"]);
+    processWeaponElement(json["elements"], json["elderseal"]);
 }
 
 function initWeaponDiv(weapon, nTop, nLeft)
@@ -195,26 +295,48 @@ async function drawWeaponTree(type)
     var nextTop = GAP_WIDTH;
     var nextLeft = GAP_WIDTH;
     var dropped = false;
+    var prevWeapon;
     for (item of weaponList)
     {
-        
+        var prevID = item["crafting"]["previous"];
         if (dropped)
         {
-            
-            var prevID = item["crafting"]["previous"];
             if (prevID)
             {
                 const response = await fetch('https://mhw-db.com/weapons/' + prevID);
                 const json = await response.json();               
-                nextLeft = parseInt(document.getElementById(json["name"]).style.left) + ICON_GAP;   
+                prevWeapon = document.getElementById(json["name"]);
+                nextLeft = parseInt(prevWeapon.style.left) + ICON_GAP;             
             }
             else
-            {
+            { 
                 nextLeft = GAP_WIDTH;
             }
+        }
+        
+        
+        DISPLAY_DETAILS.appendChild(initWeaponDiv(item, nextTop, nextLeft));
+        if (prevID)
+        {
+            var line = document.createElement("div");
+            line.style.borderBottom = LINE_SIZE + "px solid green";
+            line.style.width = ICON_GAP - SMALL_ICON + "px";
+            line.style.position = "absolute";
+            line.style.top = nextTop + SMALL_ICON/2 - LINE_SIZE + "px";
+            line.style.left = nextLeft - ICON_GAP + SMALL_ICON + "px";
+            DISPLAY_DETAILS.appendChild(line);
+        }
+        if (dropped)
+        {
+            var line = document.createElement("div");
+            line.style.borderLeft = LINE_SIZE + "px solid green";
+            line.style.position = "absolute";
+            line.style.top = parseInt(prevWeapon.style.top) + SMALL_ICON + "px";
+            line.style.height = nextTop - parseInt(line.style.top) + "px";
+            line.style.left = nextLeft - ICON_GAP + SMALL_ICON/2 - LINE_SIZE + "px";
+            DISPLAY_DETAILS.appendChild(line);
             dropped = false;
         }
-        DISPLAY_DETAILS.appendChild(initWeaponDiv(item, nextTop, nextLeft));
         nextLeft += ICON_GAP;
         if (item["crafting"]["branches"].length == 0)
         {
